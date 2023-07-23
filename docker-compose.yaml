@@ -1,0 +1,20 @@
+# 도커 컴포즈 몇 버전에서 할 것인지
+version: "3.7"
+
+# services에는 그룹핑할 컴퓨터들 이름을 적어주면됨. mongoDB컴퓨터와 node컴퓨터 두대를 그룹핑할 것이기에
+# 두 컴퓨터의 이름을 원하는대로 적고
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./index.js:/nuxtProject/index.js
+
+    # 포트포워딩을 할 경우 포스트맨이나 브라우저 3000번 => 도커 backend로
+    ports:
+      - 4000:4000
+  database-mongo:
+    image: mongo:5
+    ports:
+      - 27017:27017
